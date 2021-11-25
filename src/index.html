@@ -13,10 +13,16 @@
   </head>
   <body>
   <header>
-    <div class="wraper">
-      <input class="find-photo" type="text">
-      <button class="take-photo">Find photo</button>
-    </div>
+    <form class="search-form" id="search-form">
+      <input
+        type="text"
+        name="searchQuery"
+        autocomplete="off"
+        placeholder="Search images..."
+      />
+      <button type="submit">Search</button>
+    </form>
+    
   </header>
   <main>
 
