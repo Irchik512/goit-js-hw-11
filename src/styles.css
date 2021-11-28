@@ -87,14 +87,15 @@ border-radius: 0px 0px 4px 4px;
 }
 .img-wraper {
   display: flex;
+  justify-content: center;
+  align-items: center;
   height: 215px;
   overflow: hidden;
   margin-top: auto;
   margin-bottom: auto;
 }
 img {
-  margin-top: auto;
-  margin-bottom: auto;
+ 
   display: block;
   width: 300px;
   height: auto;
