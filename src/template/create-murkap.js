@@ -7,7 +7,9 @@ export default function createMurkap(photos) {
     .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => 
     `<a class="photo__link" href="${largeImageURL}">
     <div class="photo-card">
+    <div class="img-wraper">
     <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+    </div>
     <div class="info">
         <p class="info-item">
           <b>Likes</b> ${likes}
