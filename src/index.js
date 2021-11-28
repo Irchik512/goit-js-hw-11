@@ -34,6 +34,10 @@ async function onSeaching (evt) {
   
 
   try {
+    if (!searchQuery) {
+      return Notify.info('Please enter your search query and try again.')
+      
+    }
     const data = await fetchPhoto(searchQuery, page);
     if(data.hits.length === 0) {
       return Notify.info('Sorry, there are no images matching your search query. Please try again.')
