@@ -73,6 +73,7 @@ button:focus {
 
 
 .photo__link { 
+  max-width: fit-content;
 margin: 10px;
 text-decoration: none;
 flex-basis: calc((100% - 120px) / 4);
@@ -85,8 +86,6 @@ color: black;
 border-radius: 0px 0px 4px 4px;
 }
 img {
-  margin-left: auto;
-  margin-right: auto;
   display: block;
   width: 300px;
   height: auto;
