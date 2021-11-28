@@ -3,7 +3,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import createMurkap from './template/create-murkap';
-import fetchPhoto from './API-images';
+import ApiServise from './API-images';
 
 // const lightbox = new SimpleLightbox('.gallery a', {
 //   /* options */  lightbox.refresh();
@@ -14,9 +14,7 @@ import fetchPhoto from './API-images';
   gallery: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.more-photo')
 } 
-let searchQuery 
-let page = 1;
-const per_page = 40;
+let searchQuery;
 let lightbox = {}
 refs.loadMoreBtn.classList.add('is-hidden');
 
@@ -28,27 +26,25 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore)
 async function onSeaching (evt) {
   evt.preventDefault();
   searchQuery = evt.currentTarget.elements.searchQuery.value.trim();
-  page = 1;
+  ApiServise.resetPage();
   refs.loadMoreBtn.classList.add('is-hidden');
   refs.gallery.innerHTML = '';
-  
 
   try {
     if (!searchQuery) {
       return Notify.info('Please enter your search query and try again.')
-      
     }
-    const data = await fetchPhoto(searchQuery, page);
+    ApiServise.query = searchQuery;
+    const data = await ApiServise.fetchPhoto();
     if(data.hits.length === 0) {
       return Notify.info('Sorry, there are no images matching your search query. Please try again.')
     } else{
       Notify.success(`Hooray! We found ${data.totalHits} images`)
       createMurkap(data.hits)
       lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
-      if (page < data.totalHits/per_page) {
+      if (data.isTheNextPage) {
         refs.loadMoreBtn.classList.remove('is-hidden')
       } else { refs.loadMoreBtn.classList.add('is-hidden')}
-      page +=1
     }
   } catch (error) {
     return Notify.failure(error.message)
@@ -58,17 +54,16 @@ async function onSeaching (evt) {
 
 async function onLoadMore(evt) {
   try {
-    const data = await fetchPhoto(searchQuery);
+    const data = await ApiServise.fetchPhoto();
     
-    if (page < data.totalHits/per_page) {
+    if (data.isTheNextPage) {
       refs.loadMoreBtn.classList.remove('is-hidden')
-    } else {
-      refs.loadMoreBtn.classList.add('is-hidden')
-      Notify.info("We're sorry, but you've reached the end of search results.", { timeout: 4000 })
+    } else { refs.loadMoreBtn.classList.add('is-hidden');
+      Notify.info("We're sorry, but you've reached the end of search results.")
     }
     createMurkap(data.hits);
     lightbox.refresh();
-    page +=1
+
   } catch (error) {
     return Notify.failure(error.message)
   }
