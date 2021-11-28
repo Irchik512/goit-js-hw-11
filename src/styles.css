@@ -75,7 +75,7 @@ button:focus {
 .photo__link { 
 margin: 10px;
 text-decoration: none;
-flex-basis: calc((100% - 90px) / 3);
+flex-basis: calc((100% - 120px) / 4);
 color: black;
 
 }
